@@ -1,28 +1,24 @@
 # Báo cáo Day 6: Đánh giá độ nhạy của projection LiDAR-camera với calibration drift
 
-> Thay **mọi** ô có chữ ĐIỀN nằm trong ngoặc vuông bằng nội dung của bạn, xoá luôn cả dấu ngoặc vuông. Lệnh `python tools/check_submission.py` sẽ báo FAIL nếu còn sót bất kỳ chỗ nào.
-
-- **Họ tên:** Ngo The Viet
-- **MSSV:** 02594 (phải trùng với MSSV trong tên repo `<HoVaTen>-<MSSV>-Track4-Day21`)
-- **Lớp:** Track 4 — Computer Vision and Robotics
-- **Link repo:** https://github.com/TheViet298/NgoTheViet-02594-Track4-Day21
+- **Họ tên:** Ngô Thế Việt
+- **MSSV:** 02594
+- **Lớp:** H209
+- **Link repo:** https://github.com/TheViet298/NgoTheViet-02594-Track4-Day21.git
 - **Topic:** A — LiDAR-camera projection QA
 - **Dataset:** data/kitti_mini; data/synthetic dùng để kiểm tra projection cơ bản
 - **Các frame đã dùng:** 000001, 000011, 000049
 
-> Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
-
 ## 1. Claim
 
-Một câu khẳng định kỹ thuật có thể kiểm chứng. Ví dụ: *"Lệch yaw 1° làm 12% điểm LiDAR rơi ra khỏi vật thể ở 30 m, phát hiện được bằng edge-alignment score với ngưỡng X."*
+Claim kiểm chứng bằng cách sweep calibration yaw trên ba frame KITTI.
 
 Calibration yaw drift ảnh hưởng rõ đến tỷ lệ điểm LiDAR nằm trong các 2D box, nhưng hướng thay đổi phụ thuộc vào cảnh. Trong frame `000001`, tăng yaw từ 0° lên 3° làm tỷ lệ này giảm từ `0.0956%` xuống `0.0316%`; ở `000011` và `000049`, tỷ lệ lại tăng nhẹ. Vì vậy, một metric gộp đơn giản trên nhiều cảnh không đủ để kết luận calibration đúng hay sai.
 
 ## 2. Evidence
 
-Bảng hoặc plot số liệu, kèm ảnh/video demo. Ghi rõ đường dẫn file trong `results/`.
+Kết quả được lưu trong `results/yaw_perturb_sweep.csv` và biểu diễn ở `results/figures/yaw_perturb_sweep.png`.
 
-| Cấu hình / mức perturb | Metric 1 | Metric 2 | Ghi chú |
+| Cấu hình / mức perturb | Tỷ lệ trong ảnh (000001 / 000011 / 000049) | Tỷ lệ trong 2D box (000001 / 000011 / 000049) | Ghi chú |
 |---|---|---|---|
 | Yaw 0° | 15.49% / 18.47% / 15.91% | 0.0956% / 1.5074% / 6.8589% | Frame `000001` / `000011` / `000049` |
 | Yaw 1° | 15.49% / 18.47% / 15.99% | 0.0624% / 1.5333% / 6.9346% | Frame `000001` giảm, hai frame còn lại tăng nhẹ |
@@ -33,7 +29,7 @@ Bảng hoặc plot số liệu, kèm ảnh/video demo. Ghi rõ đường dẫn f
 
 ## 3. Failure case
 
-Nêu khi nào hệ thống hoặc phương pháp fail, vì sao fail, và liên hệ tới lớp nào trong 6 lớp debug: I/O, Geometry, Time, Preprocess, Model, Metric.
+Ảnh failure được lưu tại `results/figures/fail_01_yaw_3deg_frame_000001.png`.
 
 ![failure](../results/figures/fail_01_yaw_3deg_frame_000001.png)
 
@@ -58,7 +54,7 @@ python tools/check_submission.py
 
 ## 6. Khai báo sử dụng AI
 
-Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã tự kiểm chứng kết quả đó bằng cách nào. Nếu không dùng AI, ghi "Không sử dụng". Xem quy định ở `RULES.md` mục 2.
+Việc sử dụng AI được khai báo minh bạch dưới đây.
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
